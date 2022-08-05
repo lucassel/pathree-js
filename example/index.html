@@ -1,0 +1,132 @@
+<html>
+
+<head>
+	<title>AMATO TEST</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: red;
+		}
+
+		#info {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			font-family: 'Courier New', Courier, monospace;
+			color: white;
+			pointer-events: none;
+		}
+
+		#samples,
+		#credits {
+
+			opacity: 0.5;
+			background-color: rgba(0.0, 0.0, 0.0, 0.5);
+			padding: 5px;
+			display: inline-block;
+
+		}
+
+		#loading {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			color: black;
+			font-family: 'Courier New', Courier, monospace;
+		}
+
+		.checkerboard {
+			background-image:
+				linear-gradient(45deg, #222 25%, transparent 25%),
+				linear-gradient(-45deg, #222 25%, transparent 25%),
+				linear-gradient(45deg, transparent 75%, #222 75%),
+				linear-gradient(-45deg, transparent 75%, #222 75%);
+			background-size: 20px 20px;
+			background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+		}
+
+		#productcontainer {
+			width: 80%;
+			height: 100%;
+			margin: 0 10%;
+		}
+
+		#productinfo {
+			position: absolute;
+			color: #111;
+			font-family: 'Courier New', Courier, monospace;
+			width: 50%;
+			left: 60%;
+			top: 20%;
+		}
+
+
+		#scene-container {
+			/* tell our scene container to take up the full page */
+			position: absolute;
+			top: 20%;
+			left: 10%;
+
+			width: 40%;
+			height: 40%;
+
+
+
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="productcontainer">
+		<div id="scene-container">
+			<!-- Our <canvas> will be inserted here -->
+			<div id="loading"></div>
+			<div id="info">
+				<div>
+					<div id="samples">--</div>
+				</div>
+				<div>
+					<div id="credits">--</div>
+				</div>
+			</div>
+		</div>
+		<div id="productinfo">
+			<h1>Amato configurator</h1>
+			<h3>Blad</h3>
+			<p>Round</p>
+			<h3>Legs</h3>
+			<p>3 legs</p>
+			<h3>Size</h3>
+			<p>40cm</p>
+		</div>
+	</div>
+
+
+
+	<script type="module">
+		import { MeshPhysicalMaterial, Color } from 'three';
+
+		window.MODEL_LIST = {
+
+			'Amato': {
+				url: 'https://raw.githubusercontent.com/ams-vfb/1655-blv-dst/main/tafel.gltf',
+				credit: 'Copyright - Visuals for Brands',
+			},
+			'Amato uv test': {
+				url: 'https://raw.githubusercontent.com/ams-vfb/1655-blv-dst/main/belivingtafel.gltf',
+				credit: 'Copyright - Visuals for Brands',
+			}
+
+
+		};
+	</script>
+	<script src="./index.js" type="module"></script>
+</body>
+
+</html>
