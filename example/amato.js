@@ -212,6 +212,11 @@ function animate() {
 
 	}
 
+	// if (ptRenderer.samples < 1.0 || !params.enable) {
+
+	// 	renderer.render(scene, activeCamera);
+
+	// }
 
 	if (params.enable && delaySamples === 0) {
 

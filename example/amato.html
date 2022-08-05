@@ -9,9 +9,17 @@
 		body {
 			margin: 0;
 			padding: 0;
-			background-color: black;
+			background-color: red;
 		}
 
+		#info {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			font-family: 'Courier New', Courier, monospace;
+			color: white;
+			pointer-events: none;
+		}
 
 		#samples,
 		#credits {
@@ -42,28 +50,61 @@
 			background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 		}
 
-		#scene-container {
-			width: 100%;
+		#productcontainer {
+			width: 80%;
 			height: 100%;
+			margin: 0 10%;
+		}
+
+		#productinfo {
+			position: absolute;
+			color: #111;
+			font-family: 'Courier New', Courier, monospace;
+			width: 50%;
+			left: 60%;
+			top: 20%;
+		}
+
+
+		#scene-container {
+			/* tell our scene container to take up the full page */
+			position: absolute;
+			top: 20%;
+			left: 10%;
+
+			width: 40%;
+			height: 40%;
+
+
+
 		}
 	</style>
 
 </head>
 
 <body>
-	<div id="scene-container"></div>
-
-
-	<!-- Our <canvas> will be inserted here -->
-	<div id="loading"></div>
-	<div id="info">
-		<div>
-			<div id="samples">--</div>
+	<div id="productcontainer">
+		<div id="scene-container">
+			<!-- Our <canvas> will be inserted here -->
+			<div id="loading"></div>
+			<div id="info">
+				<div>
+					<div id="samples">--</div>
+				</div>
+				<div>
+					<div id="credits">--</div>
+				</div>
+			</div>
 		</div>
-		<div>
-			<div id="credits">--</div>
+		<div id="productinfo">
+			<h1>Amato configurator</h1>
+			<h3>Blad</h3>
+			<p>Round</p>
+			<h3>Legs</h3>
+			<p>3 legs</p>
+			<h3>Size</h3>
+			<p>40cm</p>
 		</div>
-	</div>
 	</div>
 
 
