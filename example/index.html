@@ -9,7 +9,7 @@
 		body {
 			margin: 0;
 			padding: 0;
-			background-color: black;
+			background-color: grey;
 		}
 
 
@@ -20,7 +20,7 @@
 			background-color: rgba(0.0, 0.0, 0.0, 0.5);
 			padding: 5px;
 			display: inline-block;
-
+			color: white;
 		}
 
 		#loading {
@@ -28,7 +28,7 @@
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
-			color: black;
+			color: white;
 			font-family: 'Courier New', Courier, monospace;
 		}
 
@@ -42,17 +42,22 @@
 			background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 		}
 
-		#scene-container {
-			width: 100%;
-			height: 100%;
+		#scene-container-1 {
+			width: 50%;
+			height: 30%;
+		}
+
+		#scene-container-2 {
+			width: 50%;
+			height: 30%;
 		}
 	</style>
 
 </head>
 
 <body>
-	<div id="scene-container"></div>
-
+	<div id="scene-container-1"></div>
+	<div id="scene-container-2"></div>
 
 	<!-- Our <canvas> will be inserted here -->
 	<div id="loading"></div>
