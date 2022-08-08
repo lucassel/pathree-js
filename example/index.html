@@ -42,22 +42,34 @@
 			background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 		}
 
+		#canvas-container {
+			height: 90%;
+			display: flex;
+		}
+
+
 		#scene-container-1 {
 			width: 50%;
-			height: 30%;
+			height: 100%;
+			/* background: red; */
+			margin: 2% 5%;
 		}
 
 		#scene-container-2 {
 			width: 50%;
-			height: 30%;
+			height: 100%;
+			/* background: green; */
+			margin: 2% 5%;
 		}
 	</style>
 
 </head>
 
 <body>
-	<div id="scene-container-1"></div>
-	<div id="scene-container-2"></div>
+	<div id="canvas-container">
+		<div id="scene-container-1"></div>
+		<div id="scene-container-2"></div>
+	</div>
 
 	<!-- Our <canvas> will be inserted here -->
 	<div id="loading"></div>

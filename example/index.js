@@ -105,6 +105,16 @@ let ptRenderer1, ptRenderer2, fsQuad1, fsQuad2, scene;
 let envMap, envMapGenerator;
 let loadingModel = false;
 let delaySamples = 0;
+let group, controls1, controls2;
+
+
+let mouseDown = false;
+document.body.onmousedown = () => {
+	mouseDown = true;
+};
+document.body.onmouseup = () => {
+	mouseDown = false;
+};
 
 
 init();
@@ -126,7 +136,7 @@ async function init() {
 	container1.append(renderer1.domElement);
 
 	camera1 = new PerspectiveCamera(10, container1.clientWidth / container1.clientHeight, 0.025, 500);
-	camera1.position.set(-2, 1, 0);
+	camera1.position.set(-3, 1.5, 0);
 	camera1.lookAt(0, 0.25, -.5);
 
 	ptRenderer1 = new PathTracingRenderer(renderer1);
@@ -145,6 +155,9 @@ async function init() {
 		blending: CustomBlending
 	}));
 
+	controls1 = new OrbitControls(camera1, renderer1.domElement);
+	//controls1.update();
+
 
 
 	container2 = document.querySelector('#scene-container-2');
@@ -153,8 +166,8 @@ async function init() {
 	container2.append(renderer2.domElement);
 
 	camera2 = new PerspectiveCamera(10, container2.clientWidth / container2.clientHeight, 0.025, 500);
-	camera2.position.set(0, 0.5, 2);
-	camera2.lookAt(.75, 0.25, 0);
+	camera2.position.set(0, 0.35, 2);
+	camera2.lookAt(.65, 0.25, 0);
 
 	ptRenderer2 = new PathTracingRenderer(renderer2);
 	ptRenderer2.alpha = true;
@@ -172,6 +185,9 @@ async function init() {
 		blending: CustomBlending
 	}));
 
+	controls2 = new OrbitControls(camera2, renderer2.domElement);
+	//controls2.update();
+
 	//controls = new OrbitControls(orthoCamera, renderer.domElement);
 	//controls.autoRotate = false;
 	//controls.addEventListener('change', resetRenderer);
@@ -188,8 +204,36 @@ async function init() {
 
 	animate();
 
+	canvas1 = renderer1.domElement;
+	canvas2 = renderer2.domElement;
+
+	canvas1.addEventListener("mousedown", onDocumentMouseUp);
+	canvas2.addEventListener("mousedown", onDocumentMouseUp);
+
+	document.addEventListener("mouseup", onDocumentMouseUp);
+	document.addEventListener('mousemove', onDocumentMouseMove);
 	window.addEventListener('resize', onResize);
 
+}
+
+function onDocumentMouseUp(event) {
+	resetRenderer();
+}
+
+
+function onDocumentMouseMove(event) {
+
+	mouseX = (event.clientX);
+
+	if (mouseDown) {
+		resetRenderer();
+	}
+
+	//mouseY = (event.clientY - windowHeight / 2);
+	// if (group) {
+	// 	//console.log(mouseX)
+	// 	group.rotation.set(mouseX * 100, 0, 0);
+	// }
 }
 
 function animate() {
@@ -231,10 +275,17 @@ function animate() {
 
 		}
 
+
 		renderer1.autoClear = false;
 		fsQuad1.render(renderer1);
-		fsQuad2.render(renderer2);
 		renderer1.autoClear = true;
+		controls1.update();
+
+
+		renderer2.autoClear = false;
+		fsQuad2.render(renderer2);
+		renderer2.autoClear = true;
+		controls2.update();
 
 	} else if (delaySamples > 0) {
 
@@ -458,46 +509,11 @@ function updateEnvBlur() {
 
 
 	scene.environment = blurredEnvMap;
-	// if (params.backgroundType !== 'Gradient') {
 
-	// 	scene.background = blurredEnvMap;
-
-	// }
 
 }
 
-// function updateCamera(cameraProjection) {
 
-// 	if (cameraProjection === 'Perspective') {
-
-// 		if (activeCamera) {
-
-// 			perspectiveCamera.position.copy(activeCamera.position);
-
-// 		}
-
-// 		activeCamera = perspectiveCamera;
-
-// 	} else {
-
-// 		if (activeCamera) {
-
-// 			orthoCamera.position.copy(activeCamera.position);
-
-// 		}
-
-// 		activeCamera = orthoCamera;
-
-// 	}
-
-// 	//controls.object = activeCamera;
-// 	ptRenderer.camera = activeCamera;
-
-// 	//controls.update();
-
-// 	resetRenderer();
-
-// }
 
 function convertOpacityToTransmission(model) {
 
@@ -661,7 +677,7 @@ async function updateModel() {
 		model.updateMatrixWorld();
 
 
-		const group = new Group();
+		group = new Group();
 		group.add(model);
 
 		const reducer = new MaterialReducer();
