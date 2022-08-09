@@ -68,7 +68,7 @@ const params = {
 	resolutionScale: 1 / window.devicePixelRatio,
 	tilesX: 1,
 	tilesY: 1,
-	samplesPerFrame: 3,
+	samplesPerFrame: 1,
 
 	model: initialModel,
 
@@ -156,9 +156,6 @@ async function init() {
 	}));
 
 	controls1 = new OrbitControls(camera1, renderer1.domElement);
-	//controls1.update();
-
-
 
 	container2 = document.querySelector('#scene-container-2');
 	renderer2 = new WebGLRenderer({ antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true });
@@ -186,18 +183,12 @@ async function init() {
 	}));
 
 	controls2 = new OrbitControls(camera2, renderer2.domElement);
-	//controls2.update();
-
-	//controls = new OrbitControls(orthoCamera, renderer.domElement);
-	//controls.autoRotate = false;
-	//controls.addEventListener('change', resetRenderer);
 
 	envMapGenerator = new BlurredEnvMapGenerator(renderer1);
 
 	stats = new Stats();
 	document.body.appendChild(stats.dom);
 
-	//updateCamera(params.cameraProjection);
 	updateModel();
 	updateEnvMap();
 	onResize();
@@ -210,9 +201,13 @@ async function init() {
 	canvas1.addEventListener("mousedown", onDocumentMouseUp);
 	canvas2.addEventListener("mousedown", onDocumentMouseUp);
 
-	document.addEventListener("mouseup", onDocumentMouseUp);
+	canvas1.addEventListener("mouseup", onDocumentMouseUp);
+	canvas2.addEventListener("mouseup", onDocumentMouseUp);
+
 	document.addEventListener('mousemove', onDocumentMouseMove);
 	window.addEventListener('resize', onResize);
+	document.addEventListener('wheel', (event) => { resetRenderer(); });
+
 
 }
 
@@ -328,8 +323,10 @@ function onResize() {
 	renderer2.setPixelRatio(window.devicePixelRatio * scale);
 
 	camera1.aspect = container1.clientWidth / container1.clientHeight;
-	camera2.aspect = container2.clientWidth / container2.clientWidth;
+	camera2.aspect = container2.clientWidth / container2.clientHeight;
 
+	camera1.updateProjectionMatrix();
+	camera2.updateProjectionMatrix();
 
 
 }
