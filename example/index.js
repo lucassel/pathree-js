@@ -198,16 +198,18 @@ async function init() {
 	canvas1 = renderer1.domElement;
 	canvas2 = renderer2.domElement;
 
-	canvas1.addEventListener("mousedown", onDocumentMouseUp);
-	canvas2.addEventListener("mousedown", onDocumentMouseUp);
+	canvas1.addEventListener("mousedown", resetRenderer1);
+	canvas2.addEventListener("mousedown", resetRenderer2);
 
-	canvas1.addEventListener("mouseup", onDocumentMouseUp);
-	canvas2.addEventListener("mouseup", onDocumentMouseUp);
+	canvas1.addEventListener("mouseup", resetRenderer1);
+	canvas2.addEventListener("mouseup", resetRenderer2);
 
-	document.addEventListener('mousemove', onDocumentMouseMove);
+	canvas1.addEventListener('mousemove', onMouseMove1);
+	canvas2.addEventListener('mousemove', onMouseMove2);
 	window.addEventListener('resize', onResize);
-	document.addEventListener('wheel', (event) => { resetRenderer(); });
 
+	canvas1.addEventListener('wheel', (event) => { resetRenderer1(); });
+	canvas2.addEventListener('wheel', (event) => { resetRenderer2(); });
 
 }
 
@@ -216,19 +218,23 @@ function onDocumentMouseUp(event) {
 }
 
 
-function onDocumentMouseMove(event) {
 
-	mouseX = (event.clientX);
+function onMouseMove2(event) {
 
 	if (mouseDown) {
-		resetRenderer();
+		resetRenderer2();
 	}
 
-	//mouseY = (event.clientY - windowHeight / 2);
-	// if (group) {
-	// 	//console.log(mouseX)
-	// 	group.rotation.set(mouseX * 100, 0, 0);
-	// }
+
+}
+
+function onMouseMove1(event) {
+
+	if (mouseDown) {
+		resetRenderer1();
+	}
+
+
 }
 
 function animate() {
@@ -292,6 +298,27 @@ function animate() {
 
 }
 
+function resetRenderer1() {
+	if (params.tilesX * params.tilesY !== 1.0) {
+
+		delaySamples = 1;
+
+	}
+
+	ptRenderer1.reset();
+}
+
+function resetRenderer2() {
+	if (params.tilesX * params.tilesY !== 1.0) {
+
+		delaySamples = 1;
+
+	}
+
+	ptRenderer2.reset();
+}
+
+
 function resetRenderer() {
 
 	if (params.tilesX * params.tilesY !== 1.0) {
@@ -309,26 +336,22 @@ function onResize() {
 	const scale = params.resolutionScale;
 	const dpr = window.devicePixelRatio;
 
+	renderer1.setSize(container1.clientWidth, container1.clientHeight);
+	renderer1.setPixelRatio(window.devicePixelRatio * scale);
 	ptRenderer1.setSize(container1.clientWidth * scale * dpr, container1.clientHeight * scale * dpr);
 	ptRenderer1.reset();
 
-
+	renderer2.setSize(container2.clientWidth, container2.clientHeight);
+	renderer2.setPixelRatio(window.devicePixelRatio * scale);
 	ptRenderer2.setSize(container2.clientWidth * scale * dpr, container2.clientHeight * scale * dpr);
 	ptRenderer2.reset();
 
-	renderer1.setSize(container1.clientWidth, container1.clientHeight);
-	renderer1.setPixelRatio(window.devicePixelRatio * scale);
-
-	renderer2.setSize(container2.clientWidth, container2.clientHeight);
-	renderer2.setPixelRatio(window.devicePixelRatio * scale);
 
 	camera1.aspect = container1.clientWidth / container1.clientHeight;
 	camera2.aspect = container2.clientWidth / container2.clientHeight;
 
 	camera1.updateProjectionMatrix();
 	camera2.updateProjectionMatrix();
-
-
 }
 
 function buildGui() {

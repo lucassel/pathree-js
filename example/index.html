@@ -43,36 +43,42 @@
 		}
 
 		#canvas-container {
-			height: 90%;
 			display: flex;
+			flex-direction: row;
+			height: 100%;
+		}
+
+		/* Responsive layout - makes a one column-layout instead of two-column layout */
+		@media (max-width: 1200px) {
+			#canvas-container {
+				flex-direction: column;
+			}
 		}
 
 
 		#scene-container-1 {
-			width: 50%;
-			height: 100%;
-			/* background: red; */
-			margin: 2% 5%;
+			flex: 50%;
+			background: red;
+			margin: 5em;
 		}
 
 		#scene-container-2 {
-			width: 50%;
-			height: 100%;
-			/* background: green; */
-			margin: 2% 5%;
+			flex: 50%;
+			background: green;
+			margin: 5em;
 		}
 	</style>
 
 </head>
 
 <body>
+
+
+	<div id="loading"></div>
 	<div id="canvas-container">
 		<div id="scene-container-1"></div>
 		<div id="scene-container-2"></div>
 	</div>
-
-	<!-- Our <canvas> will be inserted here -->
-	<div id="loading"></div>
 	<div id="info">
 		<div>
 			<div id="samples">--</div>
