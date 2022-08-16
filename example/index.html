@@ -13,7 +13,9 @@
 		}
 
 
-		#samples,
+
+
+		.samples,
 		#credits {
 
 			opacity: 0.5;
@@ -58,13 +60,13 @@
 
 		#scene-container-1 {
 			flex: 50%;
-			background: red;
+			/* background: red; */
 			margin: 5em;
 		}
 
 		#scene-container-2 {
 			flex: 50%;
-			background: green;
+			/* background: green; */
 			margin: 5em;
 		}
 	</style>
@@ -76,12 +78,16 @@
 
 	<div id="loading"></div>
 	<div id="canvas-container">
-		<div id="scene-container-1"></div>
-		<div id="scene-container-2"></div>
+		<div id="scene-container-1">
+			<div class="samples" id="samples1">--</div>
+		</div>
+		<div id="scene-container-2">
+			<div class="samples" id="samples2">--</div>
+		</div>
 	</div>
 	<div id="info">
 		<div>
-			<div id="samples">--</div>
+
 		</div>
 		<div>
 			<div id="credits">--</div>

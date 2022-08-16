@@ -93,7 +93,8 @@ const params = {
 };
 
 let container1, container2;
-let creditEl, loadingEl, samplesEl;
+let creditEl, loadingEl;
+let samples1, samples2;
 let gui, stats, sceneInfo;
 let renderer1, renderer2, camera1, camera2;
 let ptRenderer1, ptRenderer2, fsQuad1, fsQuad2, scene;
@@ -123,7 +124,8 @@ async function init() {
 
 	creditEl = document.getElementById( 'credits' );
 	loadingEl = document.getElementById( 'loading' );
-	samplesEl = document.getElementById( 'samples' );
+	samples1 = document.getElementById( 'samples1' );
+	samples2 = document.getElementById( 'samples2' );
 
 	scene = new Scene();
 	scene.background = null;
@@ -261,8 +263,11 @@ function animate() {
 
 	if ( params.enable && delaySamples === 0 ) {
 
-		const samples = Math.floor( ptRenderer1.samples );
-		samplesEl.innerText = `samples: ${samples}`;
+		const samples1amount = Math.floor( ptRenderer1.samples );
+		samples1.innerText = `samples: ${samples1amount}`;
+
+		const samples2amount = Math.floor( ptRenderer2.samples );
+		samples2.innerText = `samples: ${samples2amount}`;
 
 
 		ptRenderer1.material.materials.updateFrom( sceneInfo.materials, sceneInfo.textures );
@@ -309,7 +314,8 @@ function animate() {
 
 	}
 
-	samplesEl.innerText = `Samples: ${Math.floor( ptRenderer1.samples )}`;
+	samples1.innerText = `Samples: ${Math.floor( ptRenderer1.samples )}`;
+	samples2.innerText = `Samples: ${Math.floor( ptRenderer2.samples )}`;
 
 }
 
@@ -605,7 +611,8 @@ async function updateModel() {
 	loadingModel = true;
 	renderer1.domElement.style.visibility = 'hidden';
 	renderer2.domElement.style.visibility = 'hidden';
-	samplesEl.innerText = '--';
+	samples1.innerText = '--';
+	samples2.innerText = '--';
 	creditEl.innerText = '--';
 	loadingEl.innerText = 'Even geduld...';
 	loadingEl.style.visibility = 'visible';
