@@ -49,11 +49,11 @@ const envMaps = {
 };
 
 const models = window.MODEL_LIST || {};
-let initialModel = Object.keys(models)[0];
-if (window.location.hash) {
+let initialModel = Object.keys( models )[ 0 ];
+if ( window.location.hash ) {
 
-	const modelName = window.location.hash.substring(1).replaceAll('%20', ' ');
-	if (modelName in models) {
+	const modelName = window.location.hash.substring( 1 ).replaceAll( '%20', ' ' );
+	if ( modelName in models ) {
 
 		initialModel = modelName;
 
@@ -72,7 +72,7 @@ const params = {
 
 	model: initialModel,
 
-	envMap: envMaps['Royal Esplanade'],
+	envMap: envMaps[ 'Royal Esplanade' ],
 
 	gradientTop: '#bfd8ff',
 	gradientBottom: '#ffffff',
@@ -110,10 +110,15 @@ let group, controls1, controls2;
 
 let mouseDown = false;
 document.body.onmousedown = () => {
+
 	mouseDown = true;
+
 };
+
 document.body.onmouseup = () => {
+
 	mouseDown = false;
+
 };
 
 
@@ -121,73 +126,73 @@ init();
 
 async function init() {
 
-	creditEl = document.getElementById('credits');
-	loadingEl = document.getElementById('loading');
-	samplesEl = document.getElementById('samples');
+	creditEl = document.getElementById( 'credits' );
+	loadingEl = document.getElementById( 'loading' );
+	samplesEl = document.getElementById( 'samples' );
 
 	scene = new Scene();
 	scene.background = null;
 
 
 	// Get a reference to the container element that will hold our scene
-	container1 = document.querySelector('#scene-container-1');
-	renderer1 = new WebGLRenderer({ antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true });
-	renderer1.setSize(container1.clientWidth, container1.clientHeight);
-	container1.append(renderer1.domElement);
+	container1 = document.querySelector( '#scene-container-1' );
+	renderer1 = new WebGLRenderer( { antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true } );
+	renderer1.setSize( container1.clientWidth, container1.clientHeight );
+	container1.append( renderer1.domElement );
 
-	camera1 = new PerspectiveCamera(10, container1.clientWidth / container1.clientHeight, 0.025, 500);
-	camera1.position.set(-3, 1.5, 0);
-	camera1.lookAt(0, 0.25, -.5);
+	camera1 = new PerspectiveCamera( 10, container1.clientWidth / container1.clientHeight, 0.025, 500 );
+	camera1.position.set( - 3, 1.5, 0 );
+	camera1.lookAt( 0, 0.25, - .5 );
 
-	ptRenderer1 = new PathTracingRenderer(renderer1);
+	ptRenderer1 = new PathTracingRenderer( renderer1 );
 	ptRenderer1.alpha = true;
-	ptRenderer1.setSize(container1.clientWidth, container1.clientHeight);
+	ptRenderer1.setSize( container1.clientWidth, container1.clientHeight );
 	ptRenderer1.material = new PhysicalPathTracingMaterial();
-	ptRenderer1.material.setDefine('FEATURE_GRADIENT_BG', 1);
-	ptRenderer1.material.setDefine('FEATURE_MIS', Number(params.multipleImportanceSampling));
-	ptRenderer1.material.bgGradientTop.set(params.bgGradientTop);
-	ptRenderer1.material.bgGradientBottom.set(params.bgGradientBottom);
+	ptRenderer1.material.setDefine( 'FEATURE_GRADIENT_BG', 1 );
+	ptRenderer1.material.setDefine( 'FEATURE_MIS', Number( params.multipleImportanceSampling ) );
+	ptRenderer1.material.bgGradientTop.set( params.bgGradientTop );
+	ptRenderer1.material.bgGradientBottom.set( params.bgGradientBottom );
 	ptRenderer1.material.backgroundAlpha = params.backgroundAlpha;
 	ptRenderer1.camera = camera1;
 
-	fsQuad1 = new FullScreenQuad(new MeshBasicMaterial({
+	fsQuad1 = new FullScreenQuad( new MeshBasicMaterial( {
 		map: ptRenderer1.target.texture,
 		blending: CustomBlending
-	}));
+	} ) );
 
-	controls1 = new OrbitControls(camera1, renderer1.domElement);
+	controls1 = new OrbitControls( camera1, renderer1.domElement );
 
-	container2 = document.querySelector('#scene-container-2');
-	renderer2 = new WebGLRenderer({ antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true });
-	renderer2.setSize(container2.clientWidth, container2.clientHeight);
-	container2.append(renderer2.domElement);
+	container2 = document.querySelector( '#scene-container-2' );
+	renderer2 = new WebGLRenderer( { antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true } );
+	renderer2.setSize( container2.clientWidth, container2.clientHeight );
+	container2.append( renderer2.domElement );
 
-	camera2 = new PerspectiveCamera(10, container2.clientWidth / container2.clientHeight, 0.025, 500);
-	camera2.position.set(0, 0.35, 2);
-	camera2.lookAt(.65, 0.25, 0);
+	camera2 = new PerspectiveCamera( 10, container2.clientWidth / container2.clientHeight, 0.025, 500 );
+	camera2.position.set( 0, 0.35, 2 );
+	camera2.lookAt( .65, 0.25, 0 );
 
-	ptRenderer2 = new PathTracingRenderer(renderer2);
+	ptRenderer2 = new PathTracingRenderer( renderer2 );
 	ptRenderer2.alpha = true;
-	ptRenderer2.setSize(container2.clientWidth, container2.clientHeight);
+	ptRenderer2.setSize( container2.clientWidth, container2.clientHeight );
 	ptRenderer2.material = new PhysicalPathTracingMaterial();
-	ptRenderer2.material.setDefine('FEATURE_GRADIENT_BG', 1);
-	ptRenderer2.material.setDefine('FEATURE_MIS', Number(params.multipleImportanceSampling));
-	ptRenderer2.material.bgGradientTop.set(new Color("white"));
-	ptRenderer2.material.bgGradientBottom.set(new Color("white"));
+	ptRenderer2.material.setDefine( 'FEATURE_GRADIENT_BG', 1 );
+	ptRenderer2.material.setDefine( 'FEATURE_MIS', Number( params.multipleImportanceSampling ) );
+	ptRenderer2.material.bgGradientTop.set( new Color( 'white' ) );
+	ptRenderer2.material.bgGradientBottom.set( new Color( 'white' ) );
 	ptRenderer2.material.backgroundAlpha = params.backgroundAlpha;
 	ptRenderer2.camera = camera2;
 
-	fsQuad2 = new FullScreenQuad(new MeshBasicMaterial({
+	fsQuad2 = new FullScreenQuad( new MeshBasicMaterial( {
 		map: ptRenderer2.target.texture,
 		blending: CustomBlending
-	}));
+	} ) );
 
-	controls2 = new OrbitControls(camera2, renderer2.domElement);
+	controls2 = new OrbitControls( camera2, renderer2.domElement );
 
-	envMapGenerator = new BlurredEnvMapGenerator(renderer1);
+	envMapGenerator = new BlurredEnvMapGenerator( renderer1 );
 
 	stats = new Stats();
-	document.body.appendChild(stats.dom);
+	document.body.appendChild( stats.dom );
 
 	updateModel();
 	updateEnvMap();
@@ -195,43 +200,52 @@ async function init() {
 
 	animate();
 
-	canvas1 = renderer1.domElement;
-	canvas2 = renderer2.domElement;
+	const canvas1 = renderer1.domElement;
+	const canvas2 = renderer2.domElement;
 
-	canvas1.addEventListener("mousedown", resetRenderer1);
-	canvas2.addEventListener("mousedown", resetRenderer2);
+	canvas1.addEventListener( 'mousedown', resetRenderer1 );
+	canvas2.addEventListener( 'mousedown', resetRenderer2 );
 
-	canvas1.addEventListener("mouseup", resetRenderer1);
-	canvas2.addEventListener("mouseup", resetRenderer2);
+	canvas1.addEventListener( 'mouseup', resetRenderer1 );
+	canvas2.addEventListener( 'mouseup', resetRenderer2 );
 
-	canvas1.addEventListener('mousemove', onMouseMove1);
-	canvas2.addEventListener('mousemove', onMouseMove2);
-	window.addEventListener('resize', onResize);
+	canvas1.addEventListener( 'mousemove', onMouseMove1 );
+	canvas2.addEventListener( 'mousemove', onMouseMove2 );
+	window.addEventListener( 'resize', onResize );
 
-	canvas1.addEventListener('wheel', (event) => { resetRenderer1(); });
-	canvas2.addEventListener('wheel', (event) => { resetRenderer2(); });
+	canvas1.addEventListener( 'wheel', ( event ) => {
 
-}
+		resetRenderer1();
 
-function onDocumentMouseUp(event) {
-	resetRenderer();
-}
+	} );
+	canvas2.addEventListener( 'wheel', ( event ) => {
 
-
-
-function onMouseMove2(event) {
-
-	if (mouseDown) {
 		resetRenderer2();
+
+	} );
+
+}
+
+
+
+
+function onMouseMove2( event ) {
+
+	if ( mouseDown ) {
+
+		resetRenderer2();
+
 	}
 
 
 }
 
-function onMouseMove1(event) {
+function onMouseMove1( event ) {
 
-	if (mouseDown) {
+	if ( mouseDown ) {
+
 		resetRenderer1();
+
 	}
 
 
@@ -239,89 +253,99 @@ function onMouseMove1(event) {
 
 function animate() {
 
-	requestAnimationFrame(animate);
+	requestAnimationFrame( animate );
 
 	stats.update();
 
-	if (loadingModel) { return; }
+	if ( loadingModel ) {
+
+		return;
+
+	}
 
 
-	if (params.enable && delaySamples === 0) {
+	if ( params.enable && delaySamples === 0 ) {
 
-		const samples = Math.floor(ptRenderer1.samples);
+		const samples = Math.floor( ptRenderer1.samples );
 		samplesEl.innerText = `samples: ${samples}`;
 
 
-		ptRenderer1.material.materials.updateFrom(sceneInfo.materials, sceneInfo.textures);
+		ptRenderer1.material.materials.updateFrom( sceneInfo.materials, sceneInfo.textures );
 		ptRenderer1.material.filterGlossyFactor = 0.5;
 		ptRenderer1.material.environmentIntensity = params.environmentIntensity;
 		ptRenderer1.material.bounces = params.bounces;
-		ptRenderer1.material.physicalCamera.updateFrom(camera1);
+		ptRenderer1.material.physicalCamera.updateFrom( camera1 );
 
-		ptRenderer2.material.materials.updateFrom(sceneInfo.materials, sceneInfo.textures);
+		ptRenderer2.material.materials.updateFrom( sceneInfo.materials, sceneInfo.textures );
 		ptRenderer2.material.filterGlossyFactor = 0.5;
 		ptRenderer2.material.environmentIntensity = params.environmentIntensity;
 		ptRenderer2.material.bounces = params.bounces;
-		ptRenderer2.material.physicalCamera.updateFrom(camera2);
+		ptRenderer2.material.physicalCamera.updateFrom( camera2 );
 
 		camera1.updateMatrixWorld();
 		camera2.updateMatrixWorld();
 
-		if (!params.pause || ptRenderer1.samples < 1) {
+		if ( ! params.pause || ptRenderer1.samples < 1 ) {
 
-			for (let i = 0, l = params.samplesPerFrame; i < l; i++) {
+			for ( let i = 0, l = params.samplesPerFrame; i < l; i ++ ) {
+
 				ptRenderer1.update();
 				ptRenderer2.update();
+
 			}
 
 		}
 
 
 		renderer1.autoClear = false;
-		fsQuad1.render(renderer1);
+		fsQuad1.render( renderer1 );
 		renderer1.autoClear = true;
 		controls1.update();
 
 
 		renderer2.autoClear = false;
-		fsQuad2.render(renderer2);
+		fsQuad2.render( renderer2 );
 		renderer2.autoClear = true;
 		controls2.update();
 
-	} else if (delaySamples > 0) {
+	} else if ( delaySamples > 0 ) {
 
-		delaySamples--;
+		delaySamples --;
 
 	}
 
-	samplesEl.innerText = `Samples: ${Math.floor(ptRenderer1.samples)}`;
+	samplesEl.innerText = `Samples: ${Math.floor( ptRenderer1.samples )}`;
 
 }
 
 function resetRenderer1() {
-	if (params.tilesX * params.tilesY !== 1.0) {
+
+	if ( params.tilesX * params.tilesY !== 1.0 ) {
 
 		delaySamples = 1;
 
 	}
 
 	ptRenderer1.reset();
+
 }
 
 function resetRenderer2() {
-	if (params.tilesX * params.tilesY !== 1.0) {
+
+	if ( params.tilesX * params.tilesY !== 1.0 ) {
 
 		delaySamples = 1;
 
 	}
 
 	ptRenderer2.reset();
+
 }
 
 
 function resetRenderer() {
 
-	if (params.tilesX * params.tilesY !== 1.0) {
+	if ( params.tilesX * params.tilesY !== 1.0 ) {
 
 		delaySamples = 1;
 
@@ -329,6 +353,7 @@ function resetRenderer() {
 
 	ptRenderer1.reset();
 	ptRenderer2.reset();
+
 }
 
 function onResize() {
@@ -336,14 +361,14 @@ function onResize() {
 	const scale = params.resolutionScale;
 	const dpr = window.devicePixelRatio;
 
-	renderer1.setSize(container1.clientWidth, container1.clientHeight);
-	renderer1.setPixelRatio(window.devicePixelRatio * scale);
-	ptRenderer1.setSize(container1.clientWidth * scale * dpr, container1.clientHeight * scale * dpr);
+	renderer1.setSize( container1.clientWidth, container1.clientHeight );
+	renderer1.setPixelRatio( window.devicePixelRatio * scale );
+	ptRenderer1.setSize( container1.clientWidth * scale * dpr, container1.clientHeight * scale * dpr );
 	ptRenderer1.reset();
 
-	renderer2.setSize(container2.clientWidth, container2.clientHeight);
-	renderer2.setPixelRatio(window.devicePixelRatio * scale);
-	ptRenderer2.setSize(container2.clientWidth * scale * dpr, container2.clientHeight * scale * dpr);
+	renderer2.setSize( container2.clientWidth, container2.clientHeight );
+	renderer2.setPixelRatio( window.devicePixelRatio * scale );
+	ptRenderer2.setSize( container2.clientWidth * scale * dpr, container2.clientHeight * scale * dpr );
 	ptRenderer2.reset();
 
 
@@ -352,11 +377,12 @@ function onResize() {
 
 	camera1.updateProjectionMatrix();
 	camera2.updateProjectionMatrix();
+
 }
 
 function buildGui() {
 
-	if (gui) {
+	if ( gui ) {
 
 		gui.destroy();
 
@@ -364,89 +390,90 @@ function buildGui() {
 
 	gui = new GUI();
 
-	gui.add(params, 'model', Object.keys(models)).onChange(updateModel);
+	gui.add( params, 'model', Object.keys( models ) ).onChange( updateModel );
 
-	const pathTracingFolder = gui.addFolder('path tracing');
-	pathTracingFolder.add(params, 'enable');
-	pathTracingFolder.add(params, 'pause');
-	pathTracingFolder.add(params, 'multipleImportanceSampling').onChange(v => {
+	const pathTracingFolder = gui.addFolder( 'path tracing' );
+	pathTracingFolder.add( params, 'enable' );
+	pathTracingFolder.add( params, 'pause' );
+	pathTracingFolder.add( params, 'multipleImportanceSampling' ).onChange( v => {
 
-		ptRenderer1.material.setDefine('FEATURE_MIS', Number(v));
+		ptRenderer1.material.setDefine( 'FEATURE_MIS', Number( v ) );
 		ptRenderer1.reset();
 
-		ptRenderer2.material.setDefine('FEATURE_MIS', Number(v));
+		ptRenderer2.material.setDefine( 'FEATURE_MIS', Number( v ) );
 		ptRenderer2.reset();
 
 
-	});
-	pathTracingFolder.add(params, 'acesToneMapping').onChange(v => {
+	} );
+	pathTracingFolder.add( params, 'acesToneMapping' ).onChange( v => {
 
 		renderer1.toneMapping = v ? ACESFilmicToneMapping : NoToneMapping;
 		renderer2.toneMapping = v ? ACESFilmicToneMapping : NoToneMapping;
 
-	});
-	pathTracingFolder.add(params, 'bounces', 1, 20, 1).onChange(() => {
+	} );
+	pathTracingFolder.add( params, 'bounces', 1, 20, 1 ).onChange( () => {
 
 		ptRenderer.reset();
 
-	});
+	} );
 
-	const resolutionFolder = gui.addFolder('resolution');
-	resolutionFolder.add(params, 'resolutionScale', 0.1, 1.0, 0.01).onChange(() => {
+	const resolutionFolder = gui.addFolder( 'resolution' );
+	resolutionFolder.add( params, 'resolutionScale', 0.1, 1.0, 0.01 ).onChange( () => {
 
 		onResize();
 
-	});
-	resolutionFolder.add(params, 'samplesPerFrame', 1, 10, 1);
-	resolutionFolder.add(params, 'tilesX', 1, 10, 1).onChange(v => {
+	} );
+	resolutionFolder.add( params, 'samplesPerFrame', 1, 10, 1 );
+	resolutionFolder.add( params, 'tilesX', 1, 10, 1 ).onChange( v => {
 
 		ptRenderer1.tiles.x = v;
 		ptRenderer2.tiles.x = v;
 
-	});
-	resolutionFolder.add(params, 'tilesY', 1, 10, 1).onChange(v => {
+	} );
+	resolutionFolder.add( params, 'tilesY', 1, 10, 1 ).onChange( v => {
 
 		ptRenderer.tiles.y = v;
 
-	});
-	resolutionFolder.add(params, 'cameraProjection', ['Perspective', 'Orthographic']).onChange(v => {
+	} );
+	resolutionFolder.add( params, 'cameraProjection', [ 'Perspective', 'Orthographic' ] ).onChange( v => {
 
-		updateCamera(v);
+		updateCamera( v );
 
-	});
+	} );
 	resolutionFolder.open();
 
-	const environmentFolder = gui.addFolder('environment');
-	environmentFolder.add(params, 'envMap', envMaps).name('map').onChange(updateEnvMap);
-	environmentFolder.add(params, 'environmentBlur', 0.0, 1.0).onChange(() => {
+	const environmentFolder = gui.addFolder( 'environment' );
+	environmentFolder.add( params, 'envMap', envMaps ).name( 'map' ).onChange( updateEnvMap );
+	environmentFolder.add( params, 'environmentBlur', 0.0, 1.0 ).onChange( () => {
 
 		updateEnvBlur();
 		ptRenderer1.reset();
 		ptRenderer2.reset();
 
-	}).name('env map blur');
-	environmentFolder.add(params, 'environmentIntensity', 0.0, 10.0).onChange(() => {
+	} ).name( 'env map blur' );
+	environmentFolder.add( params, 'environmentIntensity', 0.0, 10.0 ).onChange( () => {
 
 		ptRenderer1.reset();
 		ptRenderer2.reset();
-	}).name('intensity');
-	environmentFolder.add(params, 'environmentRotation', 0, 2 * Math.PI).onChange(v => {
 
-		ptRenderer1.material.environmentRotation.setFromMatrix4(new Matrix4().makeRotationY(v));
+	} ).name( 'intensity' );
+	environmentFolder.add( params, 'environmentRotation', 0, 2 * Math.PI ).onChange( v => {
+
+		ptRenderer1.material.environmentRotation.setFromMatrix4( new Matrix4().makeRotationY( v ) );
 		ptRenderer1.reset();
 
-		ptRenderer2.material.environmentRotation.setFromMatrix4(new Matrix4().makeRotationY(v));
+		ptRenderer2.material.environmentRotation.setFromMatrix4( new Matrix4().makeRotationY( v ) );
 		ptRenderer2.reset();
 
-	});
+	} );
 	environmentFolder.open();
 
-	const backgroundFolder = gui.addFolder('background');
-	backgroundFolder.add(params, 'backgroundType', ['Environment', 'Gradient']).onChange(v => {
+	const backgroundFolder = gui.addFolder( 'background' );
+	backgroundFolder.add( params, 'backgroundType', [ 'Environment', 'Gradient' ] ).onChange( v => {
 
-		ptRenderer1.material.setDefine('FEATURE_GRADIENT_BG', Number(v === 'Gradient'));
-		ptRenderer2.material.setDefine('FEATURE_GRADIENT_BG', Number(v === 'Gradient'));
-		if (v === 'Gradient') {
+		ptRenderer1.material.setDefine( 'FEATURE_GRADIENT_BG', Number( v === 'Gradient' ) );
+		ptRenderer2.material.setDefine( 'FEATURE_GRADIENT_BG', Number( v === 'Gradient' ) );
+		if ( v === 'Gradient' ) {
 
 			scene.background = null;
 
@@ -459,28 +486,28 @@ function buildGui() {
 		ptRenderer1.reset();
 		ptRenderer2.reset();
 
-	});
-	backgroundFolder.addColor(params, 'bgGradientTop').onChange(v => {
+	} );
+	backgroundFolder.addColor( params, 'bgGradientTop' ).onChange( v => {
 
-		ptRenderer1.material.bgGradientTop.set(v);
+		ptRenderer1.material.bgGradientTop.set( v );
 		ptRenderer1.reset();
 
 
-		ptRenderer2.material.bgGradientTop.set(v);
+		ptRenderer2.material.bgGradientTop.set( v );
 		ptRenderer2.reset();
 
-	});
-	backgroundFolder.addColor(params, 'bgGradientBottom').onChange(v => {
+	} );
+	backgroundFolder.addColor( params, 'bgGradientBottom' ).onChange( v => {
 
-		ptRenderer1.material.bgGradientBottom.set(v);
+		ptRenderer1.material.bgGradientBottom.set( v );
 		ptRenderer1.reset();
 
 
-		ptRenderer2.material.bgGradientBottom.set(v);
+		ptRenderer2.material.bgGradientBottom.set( v );
 		ptRenderer2.reset();
 
-	});
-	backgroundFolder.add(params, 'backgroundAlpha', 0, 1).onChange(v => {
+	} );
+	backgroundFolder.add( params, 'backgroundAlpha', 0, 1 ).onChange( v => {
 
 		ptRenderer1.material.backgroundAlpha = v;
 		ptRenderer1.reset();
@@ -489,22 +516,22 @@ function buildGui() {
 		ptRenderer2.reset();
 
 
-	});
-	backgroundFolder.add(params, 'checkerboardTransparency').onChange(v => {
+	} );
+	backgroundFolder.add( params, 'checkerboardTransparency' ).onChange( v => {
 
-		if (v) document.body.classList.add('checkerboard');
-		else document.body.classList.remove('checkerboard');
+		if ( v ) document.body.classList.add( 'checkerboard' );
+		else document.body.classList.remove( 'checkerboard' );
 
-	});
+	} );
 
 }
 
 function updateEnvMap() {
 
 	new RGBELoader()
-		.load(params.envMap, texture => {
+		.load( params.envMap, texture => {
 
-			if (scene.environmentMap) {
+			if ( scene.environmentMap ) {
 
 				scene.environment.dispose();
 				envMap.dispose();
@@ -517,15 +544,15 @@ function updateEnvMap() {
 
 			ptRenderer2.reset();
 
-		});
+		} );
 
 }
 
 function updateEnvBlur() {
 
-	const blurredEnvMap = envMapGenerator.generate(envMap, params.environmentBlur);
-	ptRenderer1.material.envMapInfo.updateFrom(blurredEnvMap);
-	ptRenderer2.material.envMapInfo.updateFrom(blurredEnvMap);
+	const blurredEnvMap = envMapGenerator.generate( envMap, params.environmentBlur );
+	ptRenderer1.material.envMapInfo.updateFrom( blurredEnvMap );
+	ptRenderer2.material.envMapInfo.updateFrom( blurredEnvMap );
 
 
 	scene.environment = blurredEnvMap;
@@ -535,37 +562,37 @@ function updateEnvBlur() {
 
 
 
-function convertOpacityToTransmission(model) {
+function convertOpacityToTransmission( model ) {
 
-	model.traverse(c => {
+	model.traverse( c => {
 
-		if (c.material) {
+		if ( c.material ) {
 
 			const material = c.material;
-			if (material.opacity < 0.65 && material.opacity > 0.2) {
+			if ( material.opacity < 0.65 && material.opacity > 0.2 ) {
 
 				const newMaterial = new MeshPhysicalMaterial();
-				for (const key in material) {
+				for ( const key in material ) {
 
-					if (key in material) {
+					if ( key in material ) {
 
-						if (material[key] === null) {
+						if ( material[ key ] === null ) {
 
 							continue;
 
 						}
 
-						if (material[key].isTexture) {
+						if ( material[ key ].isTexture ) {
 
-							newMaterial[key] = material[key];
+							newMaterial[ key ] = material[ key ];
 
-						} else if (material[key].copy && material[key].constructor === newMaterial[key].constructor) {
+						} else if ( material[ key ].copy && material[ key ].constructor === newMaterial[ key ].constructor ) {
 
-							newMaterial[key].copy(material[key]);
+							newMaterial[ key ].copy( material[ key ] );
 
-						} else if ((typeof material[key]) === 'number') {
+						} else if ( ( typeof material[ key ] ) === 'number' ) {
 
-							newMaterial[key] = material[key];
+							newMaterial[ key ] = material[ key ];
 
 						}
 
@@ -581,15 +608,15 @@ function convertOpacityToTransmission(model) {
 
 		}
 
-	});
+	} );
 
 }
 
 async function updateModel() {
 
-	if (gui) {
+	if ( gui ) {
 
-		document.body.classList.remove('checkerboard');
+		document.body.classList.remove( 'checkerboard' );
 		gui.destroy();
 		gui = null;
 
@@ -597,7 +624,7 @@ async function updateModel() {
 
 	let model;
 	const manager = new LoadingManager();
-	const modelInfo = models[params.model];
+	const modelInfo = models[ params.model ];
 
 	loadingModel = true;
 	renderer1.domElement.style.visibility = 'hidden';
@@ -607,16 +634,16 @@ async function updateModel() {
 	loadingEl.innerText = 'Even geduld...';
 	loadingEl.style.visibility = 'visible';
 
-	scene.traverse(c => {
+	scene.traverse( c => {
 
-		if (c.material) {
+		if ( c.material ) {
 
 			const material = c.material;
-			for (const key in material) {
+			for ( const key in material ) {
 
-				if (material[key] && material[key].isTexture) {
+				if ( material[ key ] && material[ key ].isTexture ) {
 
-					material[key].dispose();
+					material[ key ].dispose();
 
 				}
 
@@ -624,124 +651,124 @@ async function updateModel() {
 
 		}
 
-	});
+	} );
 
-	if (sceneInfo) {
+	if ( sceneInfo ) {
 
-		scene.remove(sceneInfo.scene);
+		scene.remove( sceneInfo.scene );
 
 	}
 
 
 	const onFinish = async () => {
 
-		if (modelInfo.removeEmission) {
+		if ( modelInfo.removeEmission ) {
 
-			model.traverse(c => {
+			model.traverse( c => {
 
-				if (c.material) {
+				if ( c.material ) {
 
 					c.material.emissiveMap = null;
 					c.material.emissiveIntensity = 0;
 
 				}
 
-			});
+			} );
 
 		}
 
-		if (modelInfo.opacityToTransmission) {
+		if ( modelInfo.opacityToTransmission ) {
 
-			convertOpacityToTransmission(model);
+			convertOpacityToTransmission( model );
 
 		}
 
-		model.traverse(c => {
+		model.traverse( c => {
 
-			if (c.material) {
+			if ( c.material ) {
 
 				c.material.side = DoubleSide;
 
 			}
 
-		});
+		} );
 
-		if (modelInfo.postProcess) {
+		if ( modelInfo.postProcess ) {
 
-			modelInfo.postProcess(model);
+			modelInfo.postProcess( model );
 
 		}
 
 		// rotate model after so it doesn't affect the bounding sphere scale
-		if (modelInfo.rotation) {
+		if ( modelInfo.rotation ) {
 
-			model.rotation.set(...modelInfo.rotation);
+			model.rotation.set( ...modelInfo.rotation );
 
 		}
 
 		// center the model
 		const box = new Box3();
-		box.setFromObject(model);
+		box.setFromObject( model );
 		model.position
-			.addScaledVector(box.min, - 0.5)
-			.addScaledVector(box.max, - 0.5);
+			.addScaledVector( box.min, - 0.5 )
+			.addScaledVector( box.max, - 0.5 );
 
 		const sphere = new Sphere();
-		box.getBoundingSphere(sphere);
+		box.getBoundingSphere( sphere );
 
-		model.scale.setScalar(1 / sphere.radius);
-		model.position.multiplyScalar(1 / sphere.radius);
+		model.scale.setScalar( 1 / sphere.radius );
+		model.position.multiplyScalar( 1 / sphere.radius );
 
-		box.setFromObject(model);
+		box.setFromObject( model );
 
 		model.updateMatrixWorld();
 
 
 		group = new Group();
-		group.add(model);
+		group.add( model );
 
 		const reducer = new MaterialReducer();
-		reducer.process(group);
+		reducer.process( group );
 
 		const generator = new PathTracingSceneWorker();
-		const result = await generator.generate(group, {
+		const result = await generator.generate( group, {
 			onProgress: v => {
 
-				const percent = Math.floor(100 * v);
+				const percent = Math.floor( 100 * v );
 				loadingEl.innerText = `Building BVH : ${percent}%`;
 
 			}
-		});
+		} );
 
 		sceneInfo = result;
-		scene.add(sceneInfo.scene);
+		scene.add( sceneInfo.scene );
 
 		const { bvh, textures, materials, lights } = result;
 		const geometry = bvh.geometry;
 
 		const material1 = ptRenderer1.material;
-		material1.bvh.updateFrom(bvh);
-		material1.normalAttribute.updateFrom(geometry.attributes.normal);
-		material1.tangentAttribute.updateFrom(geometry.attributes.tangent);
-		material1.uvAttribute.updateFrom(geometry.attributes.uv);
-		material1.materialIndexAttribute.updateFrom(geometry.attributes.materialIndex);
-		material1.textures.setTextures(renderer1, 2048, 2048, textures);
-		material1.materials.updateFrom(materials, textures);
+		material1.bvh.updateFrom( bvh );
+		material1.normalAttribute.updateFrom( geometry.attributes.normal );
+		material1.tangentAttribute.updateFrom( geometry.attributes.tangent );
+		material1.uvAttribute.updateFrom( geometry.attributes.uv );
+		material1.materialIndexAttribute.updateFrom( geometry.attributes.materialIndex );
+		material1.textures.setTextures( renderer1, 2048, 2048, textures );
+		material1.materials.updateFrom( materials, textures );
 
 		// update the lights
-		material1.lights.updateFrom(lights);
+		material1.lights.updateFrom( lights );
 
 		const material2 = ptRenderer2.material;
 
-		material2.bvh.updateFrom(bvh);
-		material2.normalAttribute.updateFrom(geometry.attributes.normal);
-		material2.tangentAttribute.updateFrom(geometry.attributes.tangent);
-		material2.uvAttribute.updateFrom(geometry.attributes.uv);
-		material2.materialIndexAttribute.updateFrom(geometry.attributes.materialIndex);
-		material2.textures.setTextures(renderer2, 2048, 2048, textures);
-		material2.materials.updateFrom(materials, textures);
+		material2.bvh.updateFrom( bvh );
+		material2.normalAttribute.updateFrom( geometry.attributes.normal );
+		material2.tangentAttribute.updateFrom( geometry.attributes.tangent );
+		material2.uvAttribute.updateFrom( geometry.attributes.uv );
+		material2.materialIndexAttribute.updateFrom( geometry.attributes.materialIndex );
+		material2.textures.setTextures( renderer2, 2048, 2048, textures );
+		material2.materials.updateFrom( materials, textures );
 
-		material2.lights.updateFrom(lights);
+		material2.lights.updateFrom( lights );
 
 
 		generator.dispose();
@@ -762,11 +789,11 @@ async function updateModel() {
 	};
 
 	const url = modelInfo.url;
-	if (/(gltf|glb)$/i.test(url)) {
+	if ( /(gltf|glb)$/i.test( url ) ) {
 
 		manager.onLoad = onFinish;
-		new GLTFLoader(manager)
-			.setMeshoptDecoder(MeshoptDecoder)
+		new GLTFLoader( manager )
+			.setMeshoptDecoder( MeshoptDecoder )
 			.load(
 				url,
 				gltf => {
@@ -776,9 +803,9 @@ async function updateModel() {
 				},
 				progress => {
 
-					if (progress.total !== 0 && progress.total >= progress.loaded) {
+					if ( progress.total !== 0 && progress.total >= progress.loaded ) {
 
-						const percent = Math.floor(100 * progress.loaded / progress.total);
+						const percent = Math.floor( 100 * progress.loaded / progress.total );
 						loadingEl.innerText = `Loading : ${percent}%`;
 
 					}
@@ -786,40 +813,40 @@ async function updateModel() {
 				},
 			);
 
-	} else if (/mpd$/i.test(url)) {
+	} else if ( /mpd$/i.test( url ) ) {
 
-		manager.onProgress = (url, loaded, total) => {
+		manager.onProgress = ( url, loaded, total ) => {
 
-			const percent = Math.floor(100 * loaded / total);
+			const percent = Math.floor( 100 * loaded / total );
 			loadingEl.innerText = `Loading : ${percent}%`;
 
 		};
 
-		const loader = new LDrawLoader(manager);
-		await loader.preloadMaterials('https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/colors/ldcfgalt.ldr');
+		const loader = new LDrawLoader( manager );
+		await loader.preloadMaterials( 'https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/colors/ldcfgalt.ldr' );
 		loader
-			.setPartsLibraryPath('https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/complete/ldraw/')
+			.setPartsLibraryPath( 'https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/complete/ldraw/' )
 			.load(
 				url,
 				result => {
 
-					model = LDrawUtils.mergeObject(result);
-					model.rotation.set(Math.PI, 0, 0);
-					model.traverse(c => {
+					model = LDrawUtils.mergeObject( result );
+					model.rotation.set( Math.PI, 0, 0 );
+					model.traverse( c => {
 
-						if (c.isLineSegments) {
+						if ( c.isLineSegments ) {
 
 							c.visible = false;
 
 						}
 
-						if (c.isMesh) {
+						if ( c.isMesh ) {
 
 							c.material.roughness *= 0.01;
 
 						}
 
-					});
+					} );
 					onFinish();
 
 				},
