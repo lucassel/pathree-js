@@ -6,20 +6,15 @@ import {
 	Sphere,
 	Color,
 	DoubleSide,
-	Mesh,
-	MeshStandardMaterial,
-	PlaneBufferGeometry,
 	Group,
 	MeshPhysicalMaterial,
 	WebGLRenderer,
 	Scene,
 	PerspectiveCamera,
-	OrthographicCamera,
 	MeshBasicMaterial,
 	sRGBEncoding,
 	CustomBlending,
-	Matrix4,
-	GridHelper
+	Matrix4
 } from 'three';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
@@ -213,12 +208,12 @@ async function init() {
 	canvas2.addEventListener( 'mousemove', onMouseMove2 );
 	window.addEventListener( 'resize', onResize );
 
-	canvas1.addEventListener( 'wheel', ( event ) => {
+	canvas1.addEventListener( 'wheel', () => {
 
 		resetRenderer1();
 
 	} );
-	canvas2.addEventListener( 'wheel', ( event ) => {
+	canvas2.addEventListener( 'wheel', () => {
 
 		resetRenderer2();
 
@@ -229,7 +224,7 @@ async function init() {
 
 
 
-function onMouseMove2( event ) {
+function onMouseMove2() {
 
 	if ( mouseDown ) {
 
@@ -240,7 +235,7 @@ function onMouseMove2( event ) {
 
 }
 
-function onMouseMove1( event ) {
+function onMouseMove1() {
 
 	if ( mouseDown ) {
 
@@ -343,18 +338,7 @@ function resetRenderer2() {
 }
 
 
-function resetRenderer() {
 
-	if ( params.tilesX * params.tilesY !== 1.0 ) {
-
-		delaySamples = 1;
-
-	}
-
-	ptRenderer1.reset();
-	ptRenderer2.reset();
-
-}
 
 function onResize() {
 
@@ -413,7 +397,9 @@ function buildGui() {
 	} );
 	pathTracingFolder.add( params, 'bounces', 1, 20, 1 ).onChange( () => {
 
-		ptRenderer.reset();
+		ptRenderer1.reset();
+
+		ptRenderer2.reset();
 
 	} );
 
@@ -428,16 +414,6 @@ function buildGui() {
 
 		ptRenderer1.tiles.x = v;
 		ptRenderer2.tiles.x = v;
-
-	} );
-	resolutionFolder.add( params, 'tilesY', 1, 10, 1 ).onChange( v => {
-
-		ptRenderer.tiles.y = v;
-
-	} );
-	resolutionFolder.add( params, 'cameraProjection', [ 'Perspective', 'Orthographic' ] ).onChange( v => {
-
-		updateCamera( v );
 
 	} );
 	resolutionFolder.open();
