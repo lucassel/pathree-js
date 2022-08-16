@@ -63,7 +63,7 @@ const params = {
 	resolutionScale: 1 / window.devicePixelRatio,
 	tilesX: 1,
 	tilesY: 1,
-	samplesPerFrame: 1,
+	samplesPerFrame: 2,
 
 	model: initialModel,
 
@@ -135,7 +135,7 @@ async function init() {
 	container1 = document.querySelector( '#scene-container-1' );
 	renderer1 = new WebGLRenderer( { antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true } );
 	renderer1.setSize( container1.clientWidth, container1.clientHeight );
-	container1.append( renderer1.domElement );
+	container1.prepend( renderer1.domElement );
 
 	camera1 = new PerspectiveCamera( 10, container1.clientWidth / container1.clientHeight, 0.025, 500 );
 	camera1.position.set( - 3, 1.5, 0 );
@@ -162,7 +162,7 @@ async function init() {
 	container2 = document.querySelector( '#scene-container-2' );
 	renderer2 = new WebGLRenderer( { antialias: true, alpha: true, outputEncoding: sRGBEncoding, toneMapping: ACESFilmicToneMapping, physicallyCorrectLights: true } );
 	renderer2.setSize( container2.clientWidth, container2.clientHeight );
-	container2.append( renderer2.domElement );
+	container2.prepend( renderer2.domElement );
 
 	camera2 = new PerspectiveCamera( 10, container2.clientWidth / container2.clientHeight, 0.025, 500 );
 	camera2.position.set( 0, 0.35, 2 );
